@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:order/radio.dart';
 import 'package:timelines/timelines.dart';
 import 'biezer.dart';
 
 
 const kTileHeight = 50.0;
-
+const double _shadowHeight = 4;
+double _position = 4;
 const completeColor = Colors.grey;
 const inProgressColor = Color(0xffFFCD2C);
 const todoColor = Color(0xffd1d2d7);
@@ -37,12 +39,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int counter = 0;
   String? _selectedUser = null ;
   int _processIndex = 0;
   var orderidtype ;
   var mymodel = ["29/10/2022" ," 30/10/2022"] ;
+  int _value = 1;
+  final double _height = 55 - _shadowHeight;
+  List story_teamlist = ["Hindustan factory", " Preetham’s Home"];
+  List poc_list = ["Preetham ", "Pradeep Kumar"];
+  List poc_list_d = [" Site manager at Hitech City,Mobile: 77788 99456 Email: preetham@scube.me ", "Manager at Kukatpally,Mobile : 9896549874 Email ID : Pradeep123@gmail.com"];
+  List address = ["Plot No 4, HMDA Maitrivanam, Satyam Theatre Rd, beside Blue Fox Hotel, Kumar Basti, Srinivasa Nagar, Ameerpet, Hyderabad, Telangana 500038","Plot No 4, HMDA Maitrivanam, Sa..."];
 
   Color getColor(int index) {
     if (index == _processIndex) {
@@ -586,12 +594,244 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                             ),
                           ),
+
                         ),
                       ),
+
+                      ListView.builder(
+                        itemCount:story_teamlist.length,
+                        shrinkWrap: true,
+                        physics:ScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context,index){
+                          return  Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width*0.8,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffE5EDFC)),
+                                color: Color(0xffFBFCFF),
+                              ),
+                              child: Column(
+                                children: [
+                                  MyRadioListTile<int>(
+                                    value: index,
+                                    groupValue: _value,
+                                    leading: '',
+                                    title:Text(
+                                      story_teamlist[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black
+                                      ),
+                                    ),
+                                    trailing: Icon(Icons.edit_note,color: Color(0xff21AE2F),),
+                                    onChanged: (value) => setState(() {
+                                      _value = value!;
+                                    }),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 13.0,bottom: 10),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width*.7,
+                                      child: Text(
+                                       address[index],
+                                       textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                        fontWeight:FontWeight.w400,
+                                        fontSize: 14
+                                      ),),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),
               ),
+
+              Card(
+                margin: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 20),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text("POC Details",style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black
+                          ),),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Divider(),
+                      ),
+
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(5),
+                          dashPattern: [5, 5],
+                          color: Color(0xffFFCD2C),
+                          strokeWidth: 1.5,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Align(
+                                    alignment: Alignment.center,
+                                    child: Text("+ Add new POC",style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "poppins",
+                                    ),)),
+                              ],
+                            ),
+                          ),
+
+                        ),
+                      ),
+
+                      ListView.builder(
+                        itemCount:poc_list.length,
+                        shrinkWrap: true,
+                        physics:ScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context,index){
+                          return  Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width*0.8,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffE5EDFC)),
+                                color: Color(0xffFBFCFF),
+                              ),
+                              child: Column(
+                                children: [
+                                  MyRadioListTile<int>(
+                                    value: index,
+                                    groupValue: _value,
+                                    leading: '',
+                                    title:Text(
+                                      poc_list[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black
+                                      ),
+                                    ),
+                                    trailing: Icon(Icons.edit_note,color: Color(0xff21AE2F),),
+                                    onChanged: (value) => setState(() {
+                                      _value = value!;
+                                    }),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 13.0,bottom: 10),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width*.7,
+                                      child: Text(
+                                        poc_list_d[index],
+                                        //textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontWeight:FontWeight.w400,
+                                            fontSize: 14
+                                        ),),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Go Back",style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),),
+
+                    Container(
+                      height: _height + _shadowHeight,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: _height,
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              decoration: BoxDecoration(
+                                color: Color(0xffFFCD2C).withOpacity(0.5),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                              ),
+                            ),
+                          ),
+                          AnimatedPositioned(
+                            curve: Curves.easeIn,
+                            bottom: _position,
+                            duration: Duration(milliseconds: 70),
+                            child: Container(
+                              height: _height,
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              decoration: BoxDecoration(
+                                color: Color(0xffFFCD2C),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
+                                ),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Confirm',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontFamily: 'lato',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
             ],
           ),
         ),
